@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+ 	<!-- <sec:global-method-security secured-annotations="enabled">
+		sec:protect-pointcut expression="execution(* com.ccs.ems.service.*Service.*(..))" access="ROLE_SUPERVISOR"/
+	</sec:global-method-security> -->
+
+	<http auto-config="true">
+		<!-- Don't set any role restrictions on login.jsp -->
+		<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+
+		<!-- Only let Supervisors access the delete pages -->
+		<intercept-url pattern="/*Delete*" access="ROLE_SUPERVISOR" />
+
+		<!-- Restrict access to ALL other pages -->
+		<intercept-url pattern="/**" access="ROLE_USER" />
+
+		<!-- Set the login page and what to do if login fails -->
+		<form-login login-page="/login.jsp"
+			default-target-url='/first'
+				authentication-failure-url="/login.jsp?login_error=1" 
+				username-parameter="admin"
+				password-parameter="admin2" always-use-default-target='true'/>
+		<logout logout-success-url="/login?logout" />
+
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider>
+			<!-- jdbc-user-service
+				data-source-ref="dataSource" 
+				authorities-by-username-query="select username,authority from authorities where username=?"/ -->
+			<user-service>
+				<user name="admin" password="admin2"
+					authorities="ROLE_SUPERVISOR, ROLE_USER" />
+				<user name="user" password="user2"
+					authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	
+	<!-- <beans:bean id="service" class="com.ccs.ems.service.EmployeeService">
+		<beans:property name="empDAO" ref="empDAOBean"/>
+		sec:intercept-methods>
+			<sec:protect method="delete*" access="ROLE_SUPERVISOR" />
+			<sec:protect method="*" access="ROLE_USER" />
+		</sec:intercept-methods
+	</beans:bean> -->
+	
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/> -->
+	
+	<!-- <aop:aspectj-autoproxy /> -->
+
+	<!-- <bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="en" />
+	</bean> -->
+
+	<!-- Handles HTTP GET requests for /resources/**  in the ${webappRoot}/resources/ directory -->
+<!-- 	<mvc:resources mapping="/resources/**" location="/resources/" /> -->
+
+	<!-- Saves a locale change using a cookie -->
+<!-- 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" /> -->
+
+	<!-- Application Message Bundle -->
+<!-- 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"> -->
+<!-- 		<property name="basename" value="/WEB-INF/resources/messages" /> -->
+<!-- 		<property name="cacheSeconds" value="0" /> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
+<!--      <property name="cacheSeconds" value="0" /> -->
+<!--  	</bean>	 -->
+	
+
+</beans:beans>

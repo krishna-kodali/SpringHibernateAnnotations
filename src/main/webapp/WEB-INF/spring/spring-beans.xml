@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.2.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+     http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+     http://www.springframework.org/schema/aop 
+     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+     
+     <bean id="userController" class="com.ccs.ems.web.UserController"></bean>
+     
+     <bean id="fileController" class="com.ccs.ems.web.FileController"></bean>
+     
+     <bean id="userService" class="com.ccs.ems.svc.UserServiceImpl"></bean>
+  
+  	<bean id="rolesService" class="com.ccs.ems.svc.RolesServiceImpl"> </bean>
+  	
+  	<bean id="contactService" class="com.ccs.ems.svc.ContactServiceImpl"></bean>
+  
+  	<bean id="userDetailsService" class="com.ccs.ems.svc.UserDetailsServiceImpl"></bean>
+  
+  	<bean id="userDAO" class="com.ccs.ems.dao.UserDAOImpl"></bean>	
+  
+  	<bean id="rolesDAO" class="com.ccs.ems.dao.RolesDAOImpl"></bean>
+  	
+  	<bean id="contactDAO" class="com.ccs.ems.dao.ContactDAOImpl"></bean>
+  
+  	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="configLocation" 
+			value = "classpath:hibernate.cfg.xml">
+		</property>
+ 	</bean>
+ 
+ 	<bean id="hbmTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+ 
+ 	<!-- Transaction management -->
+ 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<constructor-arg ref="sessionFactory" ></constructor-arg>
+ 	</bean>
+ 	
+ 	<!-- <bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:test-config.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	DataSource: hsqldb
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${test.connection.driverClass}" />
+		<property name="url" value="${test.connection.url}" />
+		<property name="username" value="${test.connection.userName}" />
+		<property name="password" value="${test.connection.password}" />
+	</bean>
+
+	Hibernate
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.ccs.sandbox.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${test.hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${test.hibernate.showSql}</prop>
+			</props>
+		</property>
+	</bean>
+	
+	Transaction management
+	<tx:annotation-driven />
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean> -->
+ 
+ </beans>
