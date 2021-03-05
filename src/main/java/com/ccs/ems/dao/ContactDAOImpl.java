@@ -23,6 +23,7 @@ public class ContactDAOImpl implements ContactDAO{
 		s.save(contact);
 		tx.commit();
 		s.close();
+		System.out.println();
 	}
 
 }
